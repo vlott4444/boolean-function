@@ -1,0 +1,188 @@
+/* ОСНОВНЫЕ СТИЛИ */
+body {
+    background: #0a0a0a;
+    background-position: center;      /* центрирует */
+    background-repeat: no-repeat;     /* не повторять */
+    background-attachment: fixed;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    font-family: Arial;
+    transition: background 0.3s;
+}
+
+/* ТЕМНАЯ ТЕМА (основная) */
+.calculator {
+    background: #000000;
+    padding: 20px;
+    border: none;                    /* без рамки */
+    box-shadow: 0 0 10px #333333;    /* белое свечение */
+    width: 280px;
+    transition: background 0.3s;
+}
+
+.result {
+    background: #b0b0b0;
+    color: rgb(255, 255, 255);
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: right;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    transition: all 0.3s;
+}
+
+.buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+button {
+    width: 60px;
+    height: 60px;
+    border: none;
+    border-radius: 5px;
+    background: #db3f59;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin: 1px;
+}
+
+button:hover {
+    background: #e69393;
+}
+
+.operator {
+    background: #e02443;
+}
+
+.github-btn {
+    display: block;
+    text-align: center;
+    margin: 10px 0;
+    padding: 10px;
+    background: #b0b0b0;
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+    border-radius: 15px;
+    transition: all 0.3s;
+}
+
+.dropdown {
+    width: 100%;
+    padding: 8px;
+    margin: 10px 0;
+    background: #b0b0b0;
+    color: rgb(0, 0, 0);
+    border-radius: 5px;
+    transition: all 0.3s;
+}
+
+details {
+    background: #b0b0b0;
+    color: rgb(0, 0, 0);
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
+    transition: all 0.3s;
+}
+
+mark {
+    background: transparent !important;
+    color: rgb(255, 255, 255) !important;
+    transition: all 0.3s;
+    font-weight: 700;
+}
+
+.footer {
+    color: rgb(255, 255, 255);
+    text-align: center;
+    margin-top: 10px;
+    transition: all 0.3s;
+}
+
+/* СВЕТЛАЯ ТЕМА*/
+body.light-theme {
+    background:#f5f5f5;
+    background-position: center;      /* центрирует */
+    background-repeat: no-repeat;     /* не повторять */
+    background-attachment: fixed;
+    background-size: cover;
+        display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    font-family: Arial;
+    transition: background 0.3s;
+}
+
+body.light-theme .calculator {
+    background: #ffffff !important;
+    box-shadow: 0 0 20px rgba(0,0,0,0.2) !important;
+}
+
+body.light-theme .result {
+    background: #f5f5f5 !important;
+    color: #000000 !important;
+    border: 1px solid #000000;
+}
+
+body.light-theme button {
+    background: #db3f59 !important;
+    width: 60px;
+    height: 60px;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin: 1px;
+
+}
+
+body.light-theme button:hover {
+    background: #fc617b !important;
+}
+
+body.light-theme .operator {
+    background: #e02443 !important;
+    color: white !important;
+}
+
+body.light-theme .github-btn {
+    background: #4f4f4f !important;
+    color: white !important;
+
+}
+
+body.light-theme .dropdown {
+    background: #f5f5f5 !important;
+    color: #000000 !important;
+    border: 1px solid #000000 !important;
+}
+
+body.light-theme details {
+    background: #f5f5f5 !important;
+    color: #000000 !important;
+    border: 1px solid #000000 !important;
+}
+
+body.light-theme mark {
+    background: transparent !important;
+    color: rgb(0, 0, 0) !important;
+    transition: all 0.3s;
+    font-weight: 700;
+}
+
+body.light-theme .footer {
+    color: #000000 !important;
+}

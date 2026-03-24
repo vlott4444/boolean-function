@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Калькулятор</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body id="body">
+    <!-- Контейнер для калькулятора и блока с кнопками настроек -->
+    <div style="display: flex; gap: 20px; align-items: flex-start; justify-content: center; margin-top: 50px;">
+
+        <!-- Калькулятор -->
+        <div class="calculator" id="calc">
+            <div id="result" class="result">0</div>
+
+            <div class="buttons">
+                <!-- Ряд 1: Функции -->
+                <button id="btn_op_clear" class="operator">C</button>
+                <button id="btn_op_back" class="operator">⌫</button>
+                <button id="btn_op_000" class="operator">000</button>
+                <button id="btn_op_sqrt" class="operator">√</button>
+
+                <!-- Ряд 2: Функции -->
+                <button id="btn_op_square" class="operator">x²</button>
+                <button id="btn_op_factorial" class="operator">x!</button>
+                <button id="btn_op_proc" class="operator">%</button>
+                <button id="btn_op_plusminus" class="operator">+/-</button>
+
+                <!-- Ряд 3: Операторы -->
+                <button id="btn_op_div" class="operator">/</button>
+                <button id="btn_op_mult" class="operator">x</button>
+                <button id="btn_op_minus" class="operator">-</button>
+                <button id="btn_op_plus" class="operator">+</button>
+
+                <!-- Ряд 4: Цифры 7 8 9 и mod -->
+                <button id="btn_digit_7">7</button>
+                <button id="btn_digit_8">8</button>
+                <button id="btn_digit_9">9</button>
+                <button id = "btn_op_mod" class="operator">mod</button>
+
+                <!-- Ряд 5: Цифры 4 5 6 и = -->
+                <button id="btn_digit_4">4</button>
+                <button id="btn_digit_5">5</button>
+                <button id="btn_digit_6">6</button>
+                <button id="btn_op_equal" class="operator">=</button>
+
+                <!-- Ряд 6: Цифры 1 2 3 -->
+                <button id="btn_digit_1">1</button>
+                <button id="btn_digit_2">2</button>
+                <button id="btn_digit_3">3</button>
+                <div></div>
+
+                <!-- Ряд 7: Цифра 0 и точка -->
+                <button id="btn_digit_0">0</button>
+                <button id="btn_digit_dot">.</button>
+                <div></div>
+                <div></div>
+            </div>
+
+            <a href="#" class="github-btn">GitHub</a>
+
+            <select class="dropdown">
+                <option>Обычный</option>
+                <option>Булевы функции</option>
+                <option>Таблица истинности</option>
+            </select>
+
+            <details>
+                <summary>Автор</summary>
+                <p>ФИО: Сербенюк П.П.</p>
+                <p>Группа: ИУ5-41Б</p>
+            </details>
+
+            <mark>
+                <p>Цель работы: знакомство с HTML и CSS</p>
+            </mark>
+
+            <div class="footer">ЛР выполнена Сербенюк П.П.</div>
+        </div>
+
+        <!-- Блок настроек справа -->
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+            <button id="themeBtn">Тема</button>
+            <button id="btn_bg_color">Цвет фона</button>
+            <button id="btn_result_color">Цвет экрана</button>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('themeBtn').onclick = function() {
+            document.getElementById('body').classList.toggle('light-theme');
+        }
+    </script>
+
+    <script src="script.js"></script>
+</body>
+</html>
