@@ -1,0 +1,22 @@
+{
+  "name": "example-express",
+  "version": "1.0.0",
+  "description": "Express server example",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
+    "build": "tsc",
+    "watch": "tsc --watch src/index.ts"
+  },
+  "keywords": ["express", "api", "backend"],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
