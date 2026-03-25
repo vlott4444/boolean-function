@@ -1,5 +1,5 @@
-import { SubjectCarouselComponent } from "../../components/subject-carousel/index.js";
-import { SubjectPage } from "../subject/index.js";
+import {SubjectCarouselComponent} from "../../components/subject-carousel/index.js";
+import {SubjectPage} from "../subject/index.js";
 
 export class MainPage {
     constructor(parent) {
@@ -11,26 +11,26 @@ export class MainPage {
     }
 
     getHTML() {
-        return '<div id="main-page"></div>';
+        return `<div id="main-page"></div>`;
     }
 
     getData() {
         return [
             {
                 id: 1,
-                icon: "./images/calculators.png",
+                icon: "images/calculators.png",
                 title: "Calculators",
                 text: "Calculators and convertors for STEM, finance, fitness, construction, cooking, and more"
             },
             {
                 id: 2,
-                icon: "./images/cheat_sheets.png",
+                icon: "images/cheat-sheets.png",
                 title: "Cheat Sheets",
                 text: "A quick reference guide for math formulas"
             },
             {
                 id: 3,
-                icon: "./images/groups.png",
+                icon: "images/groups.png",
                 title: "Groups",
                 text: "Create a study group and share problems, notes and quizzes"
             }
@@ -42,20 +42,20 @@ export class MainPage {
             1: {
                 title: "Calculators",
                 text: "Calculators and convertors for STEM, finance, fitness, construction, cooking, and more",
-                //teacher: "Symbolab Team",
-                //icon: "../images/calculators.png"
+                teacher: "Symbolab Team",
+                icon: "images/calculators.png"
             },
             2: {
                 title: "Cheat Sheets",
                 text: "A quick reference guide for math formulas, including algebra, calculus, and trigonometry.",
-                //teacher: "Math Reference",
-                //icon: "../images/cheat_sheets.png"
+                teacher: "Math Reference",
+                icon: "images/cheat-sheets.png"
             },
             3: {
                 title: "Groups",
                 text: "Create a study group and share problems, notes and quizzes with your classmates.",
-                //teacher: "Study Together",
-                //icon: "../images/groups.png"
+                teacher: "Study Together",
+                icon: "images/groups.png"
             }
         };
         return subjects[id];
