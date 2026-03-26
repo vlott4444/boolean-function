@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "icon": "images/calculators.png",
+    "title": "Calculators",
+    "text": "Calculators and convertors for STEM, finance, fitness, construction, cooking, and more"
+  },
+  {
+    "id": 2,
+    "icon": "images/cheat-sheets.png",
+    "title": "Cheat Sheets",
+    "text": "A quick reference guide for math formulas"
+  },
+  {
+    "id": 3,
+    "icon": "images/groups.png",
+    "title": "Groups",
+    "text": "Create a study group and share problems, notes and quizzes"
+  }
+]
