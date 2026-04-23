@@ -1,6 +1,7 @@
 export class SubjectCarouselComponent {
     constructor(parent) {
         this.parent = parent;
+        this.carousel = null; // Сохраняем экземпляр
     }
 
     render(data, listener) {
@@ -38,6 +39,33 @@ export class SubjectCarouselComponent {
 
         this.parent.innerHTML = html;
 
+        // ИНИЦИАЛИЗАЦИЯ КАРУСЕЛИ
+        const carouselElement = document.getElementById('myCarousel');
+        if (carouselElement) {
+
+            if (typeof bootstrap !== 'undefined') {
+                new bootstrap.Carousel(carouselElement, {
+                    interval: 3000,  // листает каждые 3 секунды
+                    wrap: true       // зацикливание
+                });
+                console.log('Карусель запущена! 🎠');
+            }
+            // Если Bootstrap через модуль
+            else if (typeof window.bootstrap !== 'undefined') {
+                new window.bootstrap.Carousel(carouselElement, {
+                    interval: 3000,
+                    wrap: true
+                });
+                console.log('Карусель запущена (через window)! 🎠');
+            }
+            else {
+                console.error('Bootstrap не найден! Проверьте подключение скрипта в index.html');
+            }
+        } else {
+            console.error('Элемент #myCarousel не найден в DOM');
+        }
+
+        // Обработчики кнопок
         const buttons = document.querySelectorAll('.subject-btn');
         buttons.forEach(button => {
             button.addEventListener('click', listener);
