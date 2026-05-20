@@ -1,8 +1,8 @@
 const express = require('express');
 const path = require('path');
+const cors = require('cors');           // ← добавили CORS
 const stocksRouter = require('./routes/stocks');
 const stocksService = require('./services/stocksService');
-
 
 const app = express();
 const PORT = 3000;
@@ -13,13 +13,20 @@ const DATA_FILE_PATH = path.join(__dirname, 'data/stocks.json');
 // Инициализируем сервис с путем к файлу данных
 stocksService.init(DATA_FILE_PATH);
 
+// 0. CORS middleware — разрешаем запросы с любых источников
+app.use(cors({
+    origin: '*',
+    methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type']
+}));
+
 // 1. Встроенный middleware для парсинга JSON
 app.use(express.json());
 
 // 2. Логирующий middleware
 app.use((req, res, next) => {
     console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
-    next(); // Обязательно вызываем next(), иначе запрос зависнет
+    next();
 });
 
 // 3. Подключение маршрутов

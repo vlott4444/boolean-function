@@ -8,7 +8,7 @@
   {
     "id": 2,
     "icon": "images/cheat_cheets.PNG",
-    "title": "Логичесhsdkjfhsjкое выражение из булевой функции",
+    "title": "Логическое выражение из булевой функции",
     "text": "Составление исходного выражения из булевой функции."
   },
   {
@@ -16,5 +16,12 @@
     "icon": "images/groups.PNG",
     "title": "Минимизация выражений",
     "text": "Минимальное логическое выражение из исходного."
+  },
+  {
+    "id": 4,
+    "src": "dfghjk",
+    "title": "dsadhm",
+    "text": "fhgjhkl",
+    "icon": "images\\calculators.PNG"
   }
 ]
