@@ -1,26 +1,20 @@
 [
   {
     "id": 1,
-    "src": "https://i.pinimg.com/originals/c9/ea/65/c9ea654eb3a7398b1f702c758c1c4206.jpg",
-    "title": "обновленное название",
-    "text": "обновленное описание"
+    "icon": "images/calculators.PNG",
+    "title": "Найти значение булевой функции",
+    "text": "Множество значений функции при переменных и константных входных значениях."
   },
   {
     "id": 2,
-    "src": "https://i.pinimg.com/originals/c9/ea/65/c9ea654eb3a7398b1f702c758c1c4206.jpg",
-    "title": "Логическое выражение из булевой функции",
+    "icon": "images/cheat_cheets.PNG",
+    "title": "Логичесhsdkjfhsjкое выражение из булевой функции",
     "text": "Составление исходного выражения из булевой функции."
   },
   {
     "id": 3,
-    "src": "https://i.pinimg.com/originals/c9/ea/65/c9ea654eb3a7398b1f702c758c1c4206.jpg",
-    "title": "обновленное название",
-    "text": "обновленное описание"
-  },
-  {
-    "id": 4,
-    "src": "https://i.pinimg.com/originals/c9/ea/65/c9ea654eb3a7398b1f702c758c1c4206.jpg",
-    "title": "новая услуга",
-    "text": "Описание новой услуги"
+    "icon": "images/groups.PNG",
+    "title": "Минимизация выражений",
+    "text": "Минимальное логическое выражение из исходного."
   }
 ]
