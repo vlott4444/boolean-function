@@ -8,13 +8,22 @@
     <style>
         /* ваши стили */
     </style>
+    <!-- 1. importmap должен быть ПЕРВЫМ -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
 </head>
 <body>
     <div id="root"></div>
 
-    <!-- Сначала Bootstrap JS -->
+    <!-- Bootstrap JS не модуль, можно здесь -->
     <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Потом ваш main.js -->
+    <!-- main.js - модуль, подключаем ПОСЛЕ importmap -->
     <script src="main.js" type="module"></script>
 </body>
 </html>

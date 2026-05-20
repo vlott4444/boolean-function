@@ -1,7 +1,7 @@
 export class SubjectCarouselComponent {
     constructor(parent) {
         this.parent = parent;
-        this.carousel = null; // Сохраняем экземпляр
+        this.carousel = null;
     }
 
     render(data, listener) {
@@ -10,7 +10,7 @@ export class SubjectCarouselComponent {
             return `
                 <div class="carousel-item ${active}">
                     <div class="d-flex justify-content-center align-items-center" style="min-height: 550px;">
-                        <div class="text-center" style="cursor: pointer;" onclick="document.querySelector('[data-id=\\'${item.id}\\']').click();">
+                        <div class="text-center">
                             <div style="display: flex; justify-content: center; margin-bottom: 20px;">
                                 <img src="${item.icon}" style="width: 200px; height: 200px; object-fit: contain;">
                             </div>
@@ -39,30 +39,16 @@ export class SubjectCarouselComponent {
 
         this.parent.innerHTML = html;
 
-        // ИНИЦИАЛИЗАЦИЯ КАРУСЕЛИ
+        // Инициализация Bootstrap карусели
         const carouselElement = document.getElementById('myCarousel');
         if (carouselElement) {
-
             if (typeof bootstrap !== 'undefined') {
-                new bootstrap.Carousel(carouselElement, {
-                    interval: 3000,  // листает каждые 3 секунды
-                    wrap: true       // зацикливание
-                });
-                console.log('Карусель запущена! 🎠');
-            }
-            // Если Bootstrap через модуль
-            else if (typeof window.bootstrap !== 'undefined') {
-                new window.bootstrap.Carousel(carouselElement, {
-                    interval: 3000,
-                    wrap: true
-                });
-                console.log('Карусель запущена (через window)! 🎠');
-            }
-            else {
+                new bootstrap.Carousel(carouselElement, { interval: 3000, wrap: true });
+            } else if (typeof window.bootstrap !== 'undefined') {
+                new window.bootstrap.Carousel(carouselElement, { interval: 3000, wrap: true });
+            } else {
                 console.error('Bootstrap не найден! Проверьте подключение скрипта в index.html');
             }
-        } else {
-            console.error('Элемент #myCarousel не найден в DOM');
         }
 
         // Обработчики кнопок
