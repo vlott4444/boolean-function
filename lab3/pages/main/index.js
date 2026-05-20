@@ -6,6 +6,7 @@ import { stockUrls } from '../../modules/stockUrls.js';
 export class MainPage {
     constructor(parent) {
         this.parent = parent;
+        this.data = [];
     }
 
     get pageRoot() {
@@ -13,30 +14,30 @@ export class MainPage {
     }
 
     getHTML() {
-        return `<div id="main-page"></div>`;
+        return `
+            <div class="container mt-4">
+                <button id="add-card-btn" class="btn btn-primary mb-3" style="background-color: #DB3F59; border: none;">+ Добавить карточку</button>
+                <div id="main-page"></div>
+            </div>
+        `;
     }
 
-    // Загружает данные с бэкенда и рисует карусель
+    // Используем коллбек вместо await
     getData() {
         ajax.get(stockUrls.getStocks(), (data, status) => {
-            if (status === 200 && data) {
-                // Данные с сервера получены — рисуем карусель
-                this.renderCarousel(data);
+            console.log('Статус:', status, 'Данные:', data);
+            if (status === 200 && Array.isArray(data)) {
+                this.data = data;
             } else {
-                // Если сервер не отвечает — используем локальные данные
-                console.error('Ошибка загрузки, статус:', status);
-                this.renderCarousel(this.getLocalData());
+                console.error('Ошибка загрузки или данные не массив, используем локальные');
+                this.useLocalData();
             }
+            this.renderCarousel();
         });
     }
-    renderData(items) {
-    const carousel = new SubjectCarouselComponent(this.pageRoot);
-    carousel.render(items, this.clickCard.bind(this));
-    }
 
-    // Локальные данные (если сервер не работает)
-    getLocalData() {
-        return [
+    useLocalData() {
+        this.data = [
             {
                 id: 1,
                 icon: "images/calculators.png",
@@ -58,47 +59,70 @@ export class MainPage {
         ];
     }
 
-    // Рисует карусель с переданными данными
-    renderCarousel(data) {
+    renderCarousel() {
+        if (!this.data || this.data.length === 0) {
+            console.error('Нет данных для отображения');
+            return;
+        }
         const carousel = new SubjectCarouselComponent(this.pageRoot);
-        carousel.render(data, this.clickCard.bind(this));
+        // Передаём два обработчика: для кнопки "Подробнее" и "Изменить"
+        carousel.render(this.data, this.clickCard.bind(this), this.clickEdit.bind(this));
     }
 
     getSubjectById(id) {
-        const subjects = {
-            1: {
-                title: "Значение булевой функции",
-                text: "Введите логическое выражение с использованием логичесих операторов и входных значений множества {0, 1}.",
+        const item = this.data.find(item => item.id == id);
+        if (item) {
+            return {
+                title: item.title,
+                text: item.text,
                 teacher: "Symbolab Team",
-                icon: "images/calculators.png"
-            },
-            2: {
-                title: "Логическое выражение из булевой функции",
-                text: "Введите значения булевой функции для составления исходного выражения.",
-                teacher: "Math Reference",
-                icon: "images/cheat-sheets.png"
-            },
-            3: {
-                title: "Минимизация выражений",
-                text: "Введите логическое выражение с использованием логичесих операторов и входных значений множества {0, 1}.",
-                teacher: "Study Together",
-                icon: "images/groups.png"
-            }
+                icon: item.icon
+            };
+        }
+        return {
+            title: "Не найдено",
+            text: "Данные не загружены",
+            teacher: "",
+            icon: ""
         };
-        return subjects[id];
     }
 
     clickCard(e) {
     const cardId = e.target.dataset.id;
-    const subjectPage = new SubjectPage(this.parent, cardId);  // ← только id
+    const subjectPage = new SubjectPage(this.parent, cardId); // ← передаём id
     subjectPage.render();
     }
 
-    render() {
-    this.parent.innerHTML = '';
-    const html = this.getHTML();
-    this.parent.insertAdjacentHTML('beforeend', html);
+    clickEdit(e) {
+        const cardId = e.target.dataset.id;
+        // Динамический импорт страницы редактирования (если она у тебя есть)
+        import('../card-edit/index.js').then(module => {
+            const editPage = new module.CardEditPage(this.parent, cardId);
+            editPage.render();
+        }).catch(err => {
+            console.error('Страница редактирования не найдена', err);
+        });
+    }
 
-    this.getData();
-}
+    clickAdd() {
+        import('../card-add/index.js').then(module => {
+            const addPage = new module.CardAddPage(this.parent);
+            addPage.render();
+        }).catch(err => {
+            console.error('Страница добавления не найдена', err);
+        });
+    }
+
+    render() {
+        this.parent.innerHTML = '';
+        const html = this.getHTML();
+        this.parent.insertAdjacentHTML('beforeend', html);
+
+        const addBtn = document.getElementById('add-card-btn');
+        if (addBtn) {
+            addBtn.onclick = this.clickAdd.bind(this);
+        }
+
+        this.getData();
+    }
 }

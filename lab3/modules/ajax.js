@@ -3,7 +3,6 @@ class Ajax {
         const xhr = new XMLHttpRequest();
         xhr.open('GET', url);
         xhr.send();
-
         xhr.onreadystatechange = () => {
             if (xhr.readyState === 4) {
                 this._handleResponse(xhr, callback);
@@ -16,7 +15,6 @@ class Ajax {
         xhr.open('POST', url);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify(data));
-
         xhr.onreadystatechange = () => {
             if (xhr.readyState === 4) {
                 this._handleResponse(xhr, callback);
@@ -29,7 +27,6 @@ class Ajax {
         xhr.open('PATCH', url);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify(data));
-
         xhr.onreadystatechange = () => {
             if (xhr.readyState === 4) {
                 this._handleResponse(xhr, callback);
@@ -41,7 +38,6 @@ class Ajax {
         const xhr = new XMLHttpRequest();
         xhr.open('DELETE', url);
         xhr.send();
-
         xhr.onreadystatechange = () => {
             if (xhr.readyState === 4) {
                 this._handleResponse(xhr, callback);
@@ -50,14 +46,15 @@ class Ajax {
     }
 
     _handleResponse(xhr, callback) {
-        let data = null;
         try {
-            data = xhr.responseText ? JSON.parse(xhr.responseText) : null;
+            const data = xhr.responseText ? JSON.parse(xhr.responseText) : null;
+            callback(data, xhr.status);
         } catch (e) {
             console.error('Ошибка парсинга JSON:', e);
+            callback(null, xhr.status);
         }
-        callback(data, xhr.status);
     }
 }
 
+// ✅ Именованный экспорт (обязательно!)
 export const ajax = new Ajax();
