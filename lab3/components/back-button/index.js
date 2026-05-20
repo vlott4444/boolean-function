@@ -4,7 +4,17 @@ export class BackButtonComponent {
     }
 
     addListeners(listener) {
-        document.getElementById("back-button").addEventListener("click", listener);
+        if (!this.parent) {
+            console.error('Родительский элемент не передан');
+            return;
+        }
+
+        const button = this.parent.querySelector("#back-button");
+        if (button) {
+            button.addEventListener("click", listener);
+        } else {
+            console.error('Кнопка с id="back-button" не найдена в родителе:', this.parent);
+        }
     }
 
     getHTML() {

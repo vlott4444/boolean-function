@@ -1,5 +1,7 @@
 import {SubjectCarouselComponent} from "../../components/subject-carousel/index.js";
 import {SubjectPage} from "../subject/index.js";
+import { ajax } from '../../modules/ajax.js';
+import { stockUrls } from '../../modules/stockUrls.js';
 
 export class MainPage {
     constructor(parent) {
@@ -14,7 +16,26 @@ export class MainPage {
         return `<div id="main-page"></div>`;
     }
 
+    // Загружает данные с бэкенда и рисует карусель
     getData() {
+        ajax.get(stockUrls.getStocks(), (data, status) => {
+            if (status === 200 && data) {
+                // Данные с сервера получены — рисуем карусель
+                this.renderCarousel(data);
+            } else {
+                // Если сервер не отвечает — используем локальные данные
+                console.error('Ошибка загрузки, статус:', status);
+                this.renderCarousel(this.getLocalData());
+            }
+        });
+    }
+    renderData(items) {
+    const carousel = new SubjectCarouselComponent(this.pageRoot);
+    carousel.render(items, this.clickCard.bind(this));
+    }
+
+    // Локальные данные (если сервер не работает)
+    getLocalData() {
         return [
             {
                 id: 1,
@@ -35,6 +56,12 @@ export class MainPage {
                 text: "Минимальное логическое выражение из исходного."
             }
         ];
+    }
+
+    // Рисует карусель с переданными данными
+    renderCarousel(data) {
+        const carousel = new SubjectCarouselComponent(this.pageRoot);
+        carousel.render(data, this.clickCard.bind(this));
     }
 
     getSubjectById(id) {
@@ -62,19 +89,16 @@ export class MainPage {
     }
 
     clickCard(e) {
-        const cardId = e.target.dataset.id;
-        const subject = this.getSubjectById(cardId);
-        const subjectPage = new SubjectPage(this.parent, subject);
-        subjectPage.render();
+    const cardId = e.target.dataset.id;
+    const subjectPage = new SubjectPage(this.parent, cardId);  // ← только id
+    subjectPage.render();
     }
 
     render() {
-        this.parent.innerHTML = '';
-        const html = this.getHTML();
-        this.parent.insertAdjacentHTML('beforeend', html);
+    this.parent.innerHTML = '';
+    const html = this.getHTML();
+    this.parent.insertAdjacentHTML('beforeend', html);
 
-        const data = this.getData();
-        const carousel = new SubjectCarouselComponent(this.pageRoot);
-        carousel.render(data, this.clickCard.bind(this));
-    }
+    this.getData();
+}
 }
