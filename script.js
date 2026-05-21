@@ -54,6 +54,11 @@ window.onload = function() {
         let nextColor = colors[(colors.indexOf(currentColor) + 1) % colors.length] || colors[0];
         document.body.style.backgroundColor = nextColor;
     }
+    document.getElementById("btn_or").onclick = function() {
+        if (a==='') return;
+        selectedOperation = 'or';
+
+    }
 
 
     document.getElementById("btn_op_sqrt").onclick = function() {
@@ -213,6 +218,17 @@ window.onload = function() {
         }
 
         switch(selectedOperation) {
+            case 'or':
+                if (+a>1 || +b > 1) {
+                    outputElement.innerHTML = "Ошибка";
+                    return;
+                }
+                if (+a===1 || +b === 1) {
+                    expressionResult = 1;
+                } else {
+                    expressionResult = 0;
+                }
+                break;
             case 'mod':
                 res0 = Math.floor((+a)/(+b));
                 expressionResult = (+a) - (res0 * (+b));
