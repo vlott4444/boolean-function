@@ -1,12 +1,11 @@
 window.onload = function() {
     // Переменные для хранения чисел и операций
-
-
     let a = '';
     let b = '';
     let expressionResult = '';
     let selectedOperation = null;
     let lastResult = null;  // для накапливаемых операций
+    let waitingForNewNumber = false;  // Флаг ожидания новой операции
 
     // Получаем доступ к экрану калькулятора
     const outputElement = document.getElementById("result");
@@ -27,17 +26,29 @@ window.onload = function() {
 
     // Функция обработки нажатия на цифровые кнопки
     function onDigitButtonClicked(digit) {
-        if (!selectedOperation) {
+        // Если ждём новую операцию — очищаем всё и начинаем заново
+        if (waitingForNewNumber) {
+            a = '';
+            b = '';
+            selectedOperation = null;
+            lastResult = null;
+            waitingForNewNumber = false;
+        }
 
+        if (!selectedOperation) {
             if ((digit != '.') || (digit == '.' && !a.includes(digit))) {
                 a += digit;
             }
-            outputElement.innerHTML = a;
+            // Убираем ведущий ноль
+            if (a.startsWith('0') && a.length > 1 && digit != '.') {
+                a = a.slice(1);
+            }
+            outputElement.innerHTML = a || '0';
         } else {
             if ((digit != '.') || (digit == '.' && !b.includes(digit))) {
                 b += digit;
-                outputElement.innerHTML = b;
             }
+            outputElement.innerHTML = b || '0';
         }
     }
 
@@ -56,6 +67,11 @@ window.onload = function() {
         document.body.style.backgroundColor = nextColor;
     }
 
+    document.getElementById("btn_or").onclick = function() {
+        if (a === '') return;
+        waitingForNewNumber = false;
+        selectedOperation = 'or';
+    }
 
     document.getElementById("btn_op_sqrt").onclick = function() {
         let current = outputElement.innerHTML;
@@ -66,22 +82,22 @@ window.onload = function() {
         } else {
             b = newValue.toString();
         }
+        waitingForNewNumber = true;
     }
 
-    // ========== ЗАДАНИЕ 3: Возведение в квадрат x² (умножить на само себя) ==========
     document.getElementById("btn_op_square").onclick = function() {
         let current = outputElement.innerHTML;
         let num = Number(current);
-        let newValue = num * num;  // умножаем число на само себя
+        let newValue = num * num;
         outputElement.innerHTML = newValue;
         if (!selectedOperation) {
             a = newValue.toString();
         } else {
             b = newValue.toString();
         }
+        waitingForNewNumber = true;
     }
 
-    // ========== ЗАДАНИЕ 4: Факториал x! (цикл) ==========
     document.getElementById("btn_op_factorial").onclick = function() {
         let current = outputElement.innerHTML;
         let num = Number(current);
@@ -96,13 +112,13 @@ window.onload = function() {
         } else {
             b = newValue.toString();
         }
+        waitingForNewNumber = true;
     }
 
-    // ========== ЗАДАНИЕ 5: Добавление трех нулей 000 ==========
     document.getElementById("btn_op_000").onclick = function() {
         let current = outputElement.innerHTML;
         if (current === '0') return;
-        let newValue = current + '000';  // просто добавляем "000" к строке
+        let newValue = current + '000';
         outputElement.innerHTML = newValue;
         if (!selectedOperation) {
             a = newValue;
@@ -111,29 +127,29 @@ window.onload = function() {
         }
     }
 
-    // ========== ЗАДАНИЕ 6 + 7: Накапливаемое сложение и вычитание ==========
     document.getElementById("btn_op_plus").onclick = function() {
         if (a === '') return;
-        if (lastResult !== null) {
-            a = lastResult.toString();  // сохраняем предыдущий результат
+        if (lastResult !== null && !waitingForNewNumber) {
+            a = lastResult.toString();
         }
         selectedOperation = '+';
+        waitingForNewNumber = false;
     }
 
     document.getElementById("btn_op_minus").onclick = function() {
         if (a === '') return;
-        if (lastResult !== null) {
-            a = lastResult.toString();  // сохраняем предыдущий результат
+        if (lastResult !== null && !waitingForNewNumber) {
+            a = lastResult.toString();
         }
         selectedOperation = '-';
+        waitingForNewNumber = false;
     }
-
 
     document.getElementById("btn_result_color").onclick = function() {
         let colors = ['#f0f0f0', '#ffcccc', '#ccffcc', '#ccccff', '#ffffcc'];
         let currentColor = outputElement.style.backgroundColor;
         let nextColor = colors[(colors.indexOf(currentColor) + 1) % colors.length] || colors[0];
-        outputElement.style.backgroundColor = nextColor;  // меняем цвет экрана
+        outputElement.style.backgroundColor = nextColor;
     }
 
     // Кнопка смены знака +/-
@@ -160,7 +176,7 @@ window.onload = function() {
         }
     }
 
-    // Кнопка backspace ⌫
+    // Кнопка backspace ⌫ (добавьте кнопку с id="btn_op_back" если нужно)
     document.getElementById("btn_op_back").onclick = function() {
         let current = outputElement.innerHTML;
         if (current === '0' || current.length === 1) {
@@ -185,16 +201,20 @@ window.onload = function() {
     document.getElementById("btn_op_mult").onclick = function() {
         if (a === '') return;
         selectedOperation = 'x';
+        waitingForNewNumber = false;
     }
-    this.document.getElementById("btn_op_mod").onclick = function() {
+
+    document.getElementById("btn_op_mod").onclick = function() {
         if (a === '') return;
         selectedOperation = 'mod';
+        waitingForNewNumber = false;
     }
 
     // Кнопка деления
     document.getElementById("btn_op_div").onclick = function() {
         if (a === '') return;
         selectedOperation = '/';
+        waitingForNewNumber = false;
     }
 
     // Кнопка очистки
@@ -205,6 +225,7 @@ window.onload = function() {
         expressionResult = '';
         outputElement.innerHTML = '0';
         lastResult = null;
+        waitingForNewNumber = false;
     }
 
     // Кнопка равно (с накоплением)
@@ -214,8 +235,19 @@ window.onload = function() {
         }
 
         switch(selectedOperation) {
+            case 'or':
+                if (+a > 1 || +b > 1) {
+                    outputElement.innerHTML = "Ошибка";
+                    return;
+                }
+                if (+a === 1 || +b === 1) {
+                    expressionResult = 1;
+                } else {
+                    expressionResult = 0;
+                }
+                break;
             case 'mod':
-                res0 = Math.floor((+a)/(+b));
+                let res0 = Math.floor((+a) / (+b));
                 expressionResult = (+a) - (res0 * (+b));
                 break;
             case 'x':
@@ -240,10 +272,12 @@ window.onload = function() {
 
         // Сохраняем результат для накопления
         lastResult = expressionResult;
-
         a = expressionResult.toString();
         b = '';
         selectedOperation = null;
         outputElement.innerHTML = a;
+
+        // Устанавливаем флаг — ждём новую операцию
+        waitingForNewNumber = true;
     }
 };
