@@ -4,21 +4,18 @@ export class BackButtonComponent {
     }
 
     addListeners(listener) {
-        if (!this.parent) {
-            console.error('Родительский элемент не передан');
-            return;
-        }
-
-        const button = this.parent.querySelector("#back-button");
-        if (button) {
-            button.addEventListener("click", listener);
-        } else {
-            console.error('Кнопка с id="back-button" не найдена в родителе:', this.parent);
-        }
+        document.getElementById("back-button").addEventListener("click", listener);
     }
 
     getHTML() {
-        return `<button id="back-button" class="btn" style="background-color: #DB3F59; border: none; border-radius: 4px; padding: 8px 20px; color: white; font-family: 'Roboto', sans-serif; font-weight: 500; margin-bottom: 20px;">← Назад</button>`;
+        return `<button id="back-button"
+        class="btn"
+        style="background-color: #DB3F59;
+        border: none;
+        border-radius: 4px;
+        padding: 8px 20px; color: white;
+        font-family: 'Roboto', sans-serif; font-weight: 500;
+         margin-bottom: 20px;">Домой</button>`;
     }
 
     render(listener) {

@@ -20,8 +20,22 @@
   {
     "id": 4,
     "src": "dfghjk",
-    "title": "dsadhm",
+    "title": "dsadhmцулыавортфд",
     "text": "fhgjhkliyuyftg",
-    "icon": "images\\calculators.PNG"
+    "icon": "images/calculators.PNG"
+  },
+  {
+    "id": 5,
+    "src": "images\\calculators.PNG",
+    "title": "фвыглоарп",
+    "text": "новый",
+    "icon": "images/calculators.PNG"
+  },
+  {
+    "id": 6,
+    "src": "images\\calculators.PNG",
+    "title": "новый",
+    "text": "нооовый",
+    "icon": "images/calculators.PNG"
   }
 ]
