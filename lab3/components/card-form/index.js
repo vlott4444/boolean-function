@@ -29,7 +29,7 @@ export class CardFormComponent {
                         <input type="text" class="form-control" id="card-icon" value="${icon}" placeholder="images/calculators.png">
                     </div>
 
-                    <button id="save-card-btn" class="btn btn-primary">Сохранить</button>
+                    <button id="save-card-btn" class="btn" style="background-color: #DB3F59; color: white; border: none;">Сохранить</button>
                 </div>
             </div>
         `;

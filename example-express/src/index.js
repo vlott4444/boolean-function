@@ -50,6 +50,6 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`✅ Сервер запущен на http://localhost:${PORT}`);
-    console.log(`📊 API доступен по адресу: http://localhost:${PORT}/functions`);
+    console.log(`Сервер запущен на http://localhost:${PORT}`);
+    console.log(`API доступен по адресу: http://localhost:${PORT}/functions`);
 });

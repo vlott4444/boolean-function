@@ -63,7 +63,7 @@ var e=(e,t)=>()=>(e&&(t=e(e=0)),t),t=(e,t)=>()=>(t||(e((t={exports:{}}).exports,
                             <input type="text" id="search-input" class="form-control" placeholder="Поиск по названию...">
                         </div>
                         <div class="col-md-4">
-                            <button id="add-card-btn" class="btn w-100" style="background-color: #28a745; border: none; color: white; transition: all 0.3s ease;">+ Добавить карточку</button>
+                            <button id="add-card-btn" class="btn w-100" style="background-color: #DB3F59; border: none; color: white; transition: all 0.3s ease;">+ Добавить карточку</button>
                         </div>
                     </div>
                     <div id="carousel-container"></div>

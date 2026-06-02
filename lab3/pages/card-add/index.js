@@ -22,10 +22,7 @@ export class CardAddPage {
         const text = document.getElementById('card-text')?.value;
         const icon = document.getElementById('card-icon')?.value;
 
-        if (!title || !text) {
-            alert('Заполните заголовок и текст');
-            return;
-        }
+
 
         const postData = {
             title: title,
@@ -38,16 +35,16 @@ export class CardAddPage {
         try {
             const { data, status } = await ajax.post(functionUrls.createFunction(), postData);  // ← ИСПРАВЛЕНО
             if (status === 201 || status === 200) {
-                alert('Карточка добавлена!');
+
                 const mainPage = new MainPage(this.parent);
                 mainPage.render();
             } else {
                 console.error('Ошибка при добавлении, статус:', status);
-                alert(`Ошибка ${status}: не удалось добавить карточку`);
+
             }
         } catch (error) {
             console.error('Ошибка:', error);
-            alert('Ошибка при добавлении карточки');
+
         }
     }
 

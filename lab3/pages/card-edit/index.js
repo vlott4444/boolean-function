@@ -27,11 +27,11 @@ export class CardEditPage {
                 this.renderForm();
             } else {
                 console.error('Ошибка загрузки карточки');
-                alert('Не удалось загрузить карточку');
+
             }
         } catch (error) {
             console.error('Ошибка:', error);
-            alert('Ошибка при загрузке карточки');
+
         }
     }
 
@@ -41,7 +41,7 @@ export class CardEditPage {
         const icon = document.getElementById('card-icon')?.value;
 
         if (!title || !text) {
-            alert('Заполните заголовок и текст');
+
             return;
         }
 
@@ -52,16 +52,16 @@ export class CardEditPage {
                 src: icon
             });
             if (status === 200) {
-                alert('Карточка обновлена!');
+
                 const mainPage = new MainPage(this.parent);
                 mainPage.render();
             } else {
                 console.error('Ошибка при обновлении:', status);
-                alert('Ошибка при обновлении карточки');
+                ;
             }
         } catch (error) {
             console.error('Ошибка:', error);
-            alert('Ошибка при обновлении карточки');
+
         }
     }
 

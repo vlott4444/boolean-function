@@ -25,7 +25,7 @@ export class MainPage {
                             <input type="text" id="search-input" class="form-control" placeholder="Поиск по названию...">
                         </div>
                         <div class="col-md-4">
-                            <button id="add-card-btn" class="btn w-100" style="background-color: #DB3F59; border: none; color: white; transition: all 0.3s ease;">+ Добавить карточку</button>
+                            <button id="add-card-btn" class="btn w-100" style="background-color: #DB3F59; border: none; color: white; transition: all 0.3s ease;">Добавить карточку</button>
                         </div>
                     </div>
                     <div id="carousel-container"></div>
