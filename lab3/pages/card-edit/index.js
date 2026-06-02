@@ -2,7 +2,7 @@ import { CardFormComponent } from '../../components/card-form/index.js';
 import { BackButtonComponent } from '../../components/back-button/index.js';
 import { MainPage } from '../main/index.js';
 import { ajax } from '../../modules/ajax.js';
-import { stockUrls } from '../../modules/stockUrls.js';
+import { functionUrls } from '../../modules/functionUrls.js';
 
 export class CardEditPage {
     constructor(parent, id) {
@@ -21,7 +21,7 @@ export class CardEditPage {
 
     async loadData() {
         try {
-            const { data, status } = await ajax.get(stockUrls.getStockById(this.id));
+            const { data, status } = await ajax.get(functionUrls.getFunctionById(this.id));
             if (status === 200 && data) {
                 this.cardData = data;
                 this.renderForm();
@@ -46,7 +46,7 @@ export class CardEditPage {
         }
 
         try {
-            const { data, status } = await ajax.patch(stockUrls.updateStockById(this.id), {
+            const { data, status } = await ajax.patch(functionUrls.updateFunctionById(this.id), {
                 title,
                 text,
                 src: icon
@@ -67,6 +67,13 @@ export class CardEditPage {
 
     renderForm() {
         const root = this.pageRoot;
+        if (!root) {
+            console.error('pageRoot не найден');
+            return;
+        }
+
+        root.innerHTML = '';
+
         const backButton = new BackButtonComponent(root);
         backButton.render(() => {
             const mainPage = new MainPage(this.parent);

@@ -1,9 +1,8 @@
 import { SubjectDetailComponent } from "../../components/subject-detail/index.js";
 import { BackButtonComponent } from "../../components/back-button/index.js";
 import { MainPage } from "../main/index.js";
-import { CardEditPage } from "../card-edit/index.js";
 import { ajax } from '../../modules/ajax.js';
-import { stockUrls } from '../../modules/stockUrls.js';
+import { functionUrls } from '../../modules/functionUrls.js';
 
 export class SubjectPage {
     constructor(parent, id) {
@@ -22,7 +21,7 @@ export class SubjectPage {
 
     async getData() {
         try {
-            const result = await ajax.get(stockUrls.getStockById(this.id));
+            const result = await ajax.get(functionUrls.getFunctionById(this.id));
             if (result && result.status === 200 && result.data) {
                 this.subject = result.data;
                 this.renderData();
@@ -45,30 +44,7 @@ export class SubjectPage {
         backButton.render(this.clickBack);
 
         const detail = new SubjectDetailComponent(root);
-        detail.render(this.subject, this.clickEdit.bind(this), this.clickDelete.bind(this));
-    }
-
-    clickEdit = () => {
-        const editPage = new CardEditPage(this.parent, this.id);
-        editPage.render();
-    }
-
-    clickDelete = async () => {
-        if (confirm('Вы уверены, что хотите удалить эту карточку?')) {
-            try {
-                const { status } = await ajax.delete(stockUrls.deleteStockById(this.id));
-                if (status === 204 || status === 200) {
-                    alert('Карточка удалена!');
-                    const mainPage = new MainPage(this.parent);
-                    mainPage.render();
-                } else {
-                    alert('Ошибка при удалении');
-                }
-            } catch (error) {
-                console.error('Ошибка:', error);
-                alert('Ошибка при удалении карточки');
-            }
-        }
+        detail.render(this.subject, this.parent);  // ← передаём parent
     }
 
     clickBack = () => {

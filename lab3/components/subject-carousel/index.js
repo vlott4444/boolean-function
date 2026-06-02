@@ -1,31 +1,31 @@
+// components/subject-carousel/index.js
 export class SubjectCarouselComponent {
     constructor(parent) {
         this.parent = parent;
     }
 
     render(data, onDetailClick, onEditClick, onDeleteClick) {
-        console.log('Данные для карусели:', data);
+        console.log('Данные для отображения:', data);
 
-        const slides = data.map((item, i) => {
-            const active = i === 0 ? 'active' : '';
+        const cards = data.map((item) => {
             // Обработка пути к изображению
             const imagePath = item.icon || item.src || 'images/default.png';
 
             return `
-                <div class="carousel-item ${active}">
-                    <div class="d-flex justify-content-center align-items-center" style="min-height: 550px;">
-                        <div class="text-center">
+                <div class="col-md-4 col-sm-6 mb-4">
+                    <div class="card h-100 text-center" style="border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: transform 0.3s ease;">
+                        <div class="card-body" style="padding: 24px;">
                             <div style="display: flex; justify-content: center; margin-bottom: 20px;">
                                 <img src="${imagePath}"
-                                     style="width: 200px; height: 200px; object-fit: contain;"
+                                     style="width: 120px; height: 120px; object-fit: contain;"
                                      onerror="this.onerror=null; this.src='/images/default.png'">
                             </div>
-                            <h3 style="font-family: 'Rubik', sans-serif; font-weight: 600; color: #001A36; margin-bottom: 15px;">${this.escapeHtml(item.title)}</h3>
-                            <p style="font-family: 'Roboto', sans-serif; color: #4A5568; max-width: 300px; margin: 0 auto; font-size: 14px;">${this.escapeHtml(item.text)}</p>
-                            <div class="d-flex gap-2 justify-content-center">
-                                <button class="btn detail-btn mt-3" data-id="${item.id}" style="background-color: #DB3F59; border: none; border-radius: 4px; padding: 8px 24px; font-family: 'Roboto', sans-serif; font-weight: 500; color: white; cursor: pointer;">Подробнее</button>
-                                <button class="btn edit-btn mt-3" data-id="${item.id}" style="background-color: #DB3F59; border: none; border-radius: 4px; padding: 8px 24px; font-family: 'Roboto', sans-serif; font-weight: 500; color: white; cursor: pointer;">Редактировать</button>
-                                <button class="btn delete-btn mt-3" data-id="${item.id}" style="background-color: #DB3F59; border: none; border-radius: 4px; padding: 8px 24px; font-family: 'Roboto', sans-serif; font-weight: 500; color: white; cursor: pointer;">Удалить</button>
+                            <h3 class="card-title" style="font-family: 'Rubik', sans-serif; font-weight: 600; color: #001A36; margin-bottom: 15px; font-size: 18px;">${this.escapeHtml(item.title)}</h3>
+                            <p class="card-text" style="font-family: 'Roboto', sans-serif; color: #4A5568; font-size: 14px; line-height: 1.5;">${this.escapeHtml(item.text)}</p>
+                            <div class="d-flex flex-wrap gap-2 justify-content-center mt-3">
+                                <button class="btn detail-btn" data-id="${item.id}" style="background-color: #DB3F59; border: none; border-radius: 4px; padding: 6px 16px; font-family: 'Roboto', sans-serif; font-weight: 500; color: white; cursor: pointer; font-size: 13px;">Подробнее</button>
+                                <button class="btn edit-btn" data-id="${item.id}" style="background-color: #DB3F59; border: none; border-radius: 4px; padding: 6px 16px; font-family: 'Roboto', sans-serif; font-weight: 500; color: white; cursor: pointer; font-size: 13px;">Редактировать</button>
+                                <button class="btn delete-btn" data-id="${item.id}" style="background-color: #DB3F59; border: none; border-radius: 4px; padding: 6px 16px; font-family: 'Roboto', sans-serif; font-weight: 500; color: white; cursor: pointer; font-size: 13px;">Удалить</button>
                             </div>
                         </div>
                     </div>
@@ -34,20 +34,25 @@ export class SubjectCarouselComponent {
         }).join('');
 
         const html = `
-            <div id="myCarousel" class="carousel slide" data-bs-ride="carousel" style="background-color: #f9f9f9;">
-                <div class="carousel-inner">
-                    ${slides}
+            <div class="container mt-4">
+                <div class="row">
+                    ${cards}
                 </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev" style="width: 5%;">
-                    <span class="carousel-control-prev-icon" style="background-color: #DB3F59; border-radius: 50%; padding: 20px;"></span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next" style="width: 5%;">
-                    <span class="carousel-control-next-icon" style="background-color: #DB3F59; border-radius: 50%; padding: 20px;"></span>
-                </button>
             </div>
         `;
 
         this.parent.innerHTML = html;
+
+        // Добавляем эффект при наведении на карточку
+        const cardsElements = document.querySelectorAll('.card');
+        cardsElements.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-5px)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+            });
+        });
 
         // Обработчики для кнопок "Подробнее"
         const detailButtons = document.querySelectorAll('.detail-btn');

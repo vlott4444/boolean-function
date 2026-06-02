@@ -1,6 +1,6 @@
 import { MainPage } from '../main/index.js';
 import { ajax } from '../../modules/ajax.js';
-import { stockUrls } from '../../modules/stockUrls.js';
+import { functionUrls } from '../../modules/functionUrls.js';  // ← ИСПРАВЛЕНО
 
 export class CardDeletePage {
     constructor(parent, id) {
@@ -11,7 +11,7 @@ export class CardDeletePage {
     async deleteCard() {
         if (confirm('Вы уверены, что хотите удалить эту карточку?')) {
             try {
-                const { status } = await ajax.delete(stockUrls.deleteStockById(this.id));
+                const { status } = await ajax.delete(functionUrls.deleteFunctionById(this.id));  // ← ИСПРАВЛЕНО
                 if (status === 204 || status === 200) {
                     alert('Карточка успешно удалена!');
                     const mainPage = new MainPage(this.parent);

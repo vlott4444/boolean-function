@@ -1,10 +1,10 @@
-import { SubjectCarouselComponent } from "../../components/subject-carousel/index.js";
-import { SubjectPage } from "../subject/index.js";
-import { CardEditPage } from "../card-edit/index.js";
-import { CardAddPage } from "../card-add/index.js";
-import { CardDeletePage } from "../card-delete/index.js";
+import {SubjectCarouselComponent} from "../../components/subject-carousel/index.js";
+import {SubjectPage} from "../subject/index.js";
+import {CardEditPage} from "../card-edit/index.js";
+import {CardAddPage} from "../card-add/index.js";
+import {CardDeletePage} from "../card-delete/index.js";
 import { ajax } from '../../modules/ajax.js';
-import { stockUrls } from '../../modules/stockUrls.js';
+import { functionUrls } from '../../modules/functionUrls.js';  // ← ДОЛЖНО БЫТЬ ТАК
 
 export class MainPage {
     constructor(parent) {
@@ -36,7 +36,7 @@ export class MainPage {
 
     async getData() {
         try {
-            const result = await ajax.get(stockUrls.getStocks());
+            const result = await ajax.get(functionUrls.getFunctions());  // ← ИСПРАВЛЕНО
             if (result && result.status === 200 && result.data) {
                 this.allData = result.data;
                 this.renderCarousel(this.allData);
@@ -91,7 +91,6 @@ export class MainPage {
         if (!container) return;
 
         const carousel = new SubjectCarouselComponent(container);
-        // Передаем три обработчика
         carousel.render(data, this.clickDetail.bind(this), this.clickEdit.bind(this), this.clickDelete.bind(this));
     }
 

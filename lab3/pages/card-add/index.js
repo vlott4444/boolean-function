@@ -2,7 +2,7 @@ import { CardFormComponent } from '../../components/card-form/index.js';
 import { BackButtonComponent } from '../../components/back-button/index.js';
 import { MainPage } from '../main/index.js';
 import { ajax } from '../../modules/ajax.js';
-import { stockUrls } from '../../modules/stockUrls.js';
+import { functionUrls } from '../../modules/functionUrls.js';  // ← ИСПРАВЛЕНО
 
 export class CardAddPage {
     constructor(parent) {
@@ -36,7 +36,7 @@ export class CardAddPage {
         console.log('Отправляемые данные:', postData);
 
         try {
-            const { data, status } = await ajax.post(stockUrls.createStock(), postData);
+            const { data, status } = await ajax.post(functionUrls.createFunction(), postData);  // ← ИСПРАВЛЕНО
             if (status === 201 || status === 200) {
                 alert('Карточка добавлена!');
                 const mainPage = new MainPage(this.parent);
