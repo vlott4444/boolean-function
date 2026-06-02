@@ -5,11 +5,10 @@ import { ajax } from '../../modules/ajax.js';
 import { stockUrls } from '../../modules/stockUrls.js';
 
 export class SubjectPage {
-    // Теперь передаем НЕ subject, а id карточки
     constructor(parent, id) {
         this.parent = parent;
-        this.id = id;           // ← запоминаем id
-        this.subject = null;    // ← данные загрузятся позже
+        this.id = id;
+        this.subject = null;
     }
 
     get pageRoot() {
@@ -20,41 +19,44 @@ export class SubjectPage {
         return `<div id="subject-page" class="container mt-4 d-flex justify-content-center"></div>`;
     }
 
-    // Новый метод — загружает данные с бэкенда
-    getData() {
-        ajax.get(stockUrls.getStockById(this.id), (data) => {
-            this.subject = data;
-            this.renderData();  // после загрузки — рисуем
-        });
+    // ИСПРАВЛЕНО: теперь async/await вместо callback
+    async getData() {
+        try {
+            const result = await ajax.get(stockUrls.getStockById(this.id));
+            if (result && result.status === 200 && result.data) {
+                this.subject = result.data;
+                this.renderData();
+            } else {
+                console.error('Некорректный ответ от сервера:', result);
+            }
+        } catch (error) {
+            console.error('Ошибка при загрузке данных:', error);
+        }
     }
 
-    // Рисуем страницу с загруженными данными
     renderData() {
-    // Убедимся, что pageRoot существует
-    const root = this.pageRoot;
-    if (!root) {
-        console.error('pageRoot не найден');
-        return;
-    }
+        const root = this.pageRoot;
+        if (!root) {
+            console.error('pageRoot не найден');
+            return;
+        }
 
-    const backButton = new BackButtonComponent(root);
-    backButton.render(this.clickBack);
+        const backButton = new BackButtonComponent(root);
+        backButton.render(this.clickBack);
 
-    const detail = new SubjectDetailComponent(root);
-    detail.render(this.subject);
+        const detail = new SubjectDetailComponent(root);
+        detail.render(this.subject);
     }
 
     clickBack = () => {
-    const mainPage = new MainPage(this.parent);
-    mainPage.render();
+        const mainPage = new MainPage(this.parent);
+        mainPage.render();
     }
 
     render() {
         this.parent.innerHTML = '';
         const html = this.getHTML();
         this.parent.insertAdjacentHTML('beforeend', html);
-
-        // Загружаем данные
-        this.getData();
+        this.getData(); // теперь это async функция
     }
 }

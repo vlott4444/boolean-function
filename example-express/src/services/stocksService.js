@@ -20,7 +20,8 @@ const findAll = (title) => {
 
 const findOne = (id) => {
     const stocks = fileService.readData(dataFilePath);
-    return stocks.find(stock => stock.id === id);
+    // ИСПРАВЛЕНО: преобразуем id в число для сравнения
+    return stocks.find(stock => stock.id === Number(id));
 };
 
 const create = (stockData) => {
@@ -40,7 +41,7 @@ const create = (stockData) => {
 
 const update = (id, stockData) => {
     const stocks = fileService.readData(dataFilePath);
-    const index = stocks.findIndex(s => s.id === id);
+    const index = stocks.findIndex(s => s.id === Number(id)); // ИСПРАВЛЕНО
 
     if (index === -1) return null;
 
@@ -52,7 +53,7 @@ const update = (id, stockData) => {
 
 const remove = (id) => {
     const stocks = fileService.readData(dataFilePath);
-    const filteredStocks = stocks.filter(s => s.id !== id);
+    const filteredStocks = stocks.filter(s => s.id !== Number(id)); // ИСПРАВЛЕНО
 
     if (filteredStocks.length === stocks.length) {
         return false; // Ничего не удалили
