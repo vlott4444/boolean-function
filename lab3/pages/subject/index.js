@@ -1,6 +1,7 @@
-import {SubjectDetailComponent} from "../../components/subject-detail/index.js";
-import {BackButtonComponent} from "../../components/back-button/index.js";
-import {MainPage} from "../main/index.js";
+import { SubjectDetailComponent } from "../../components/subject-detail/index.js";
+import { BackButtonComponent } from "../../components/back-button/index.js";
+import { MainPage } from "../main/index.js";
+import { CardEditPage } from "../card-edit/index.js";
 import { ajax } from '../../modules/ajax.js';
 import { stockUrls } from '../../modules/stockUrls.js';
 
@@ -19,7 +20,6 @@ export class SubjectPage {
         return `<div id="subject-page" class="container mt-4 d-flex justify-content-center"></div>`;
     }
 
-    // ИСПРАВЛЕНО: теперь async/await вместо callback
     async getData() {
         try {
             const result = await ajax.get(stockUrls.getStockById(this.id));
@@ -45,7 +45,30 @@ export class SubjectPage {
         backButton.render(this.clickBack);
 
         const detail = new SubjectDetailComponent(root);
-        detail.render(this.subject);
+        detail.render(this.subject, this.clickEdit.bind(this), this.clickDelete.bind(this));
+    }
+
+    clickEdit = () => {
+        const editPage = new CardEditPage(this.parent, this.id);
+        editPage.render();
+    }
+
+    clickDelete = async () => {
+        if (confirm('Вы уверены, что хотите удалить эту карточку?')) {
+            try {
+                const { status } = await ajax.delete(stockUrls.deleteStockById(this.id));
+                if (status === 204 || status === 200) {
+                    alert('Карточка удалена!');
+                    const mainPage = new MainPage(this.parent);
+                    mainPage.render();
+                } else {
+                    alert('Ошибка при удалении');
+                }
+            } catch (error) {
+                console.error('Ошибка:', error);
+                alert('Ошибка при удалении карточки');
+            }
+        }
     }
 
     clickBack = () => {
@@ -57,6 +80,6 @@ export class SubjectPage {
         this.parent.innerHTML = '';
         const html = this.getHTML();
         this.parent.insertAdjacentHTML('beforeend', html);
-        this.getData(); // теперь это async функция
+        this.getData();
     }
 }

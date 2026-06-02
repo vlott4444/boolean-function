@@ -26,5 +26,8 @@ class StockUrls {
 
 export const stockUrls = {
     getStocks: () => '/stocks',  // у тебя в бекенде маршрут '/stocks', не '/api/stocks'
-    getStockById: (id) => `/stocks/${id}`
+    getStockById: (id) => `/stocks/${id}`,
+    createStock: () => '/stocks',
+    updateStockById: (id) => `/stocks/${id}`,
+    deleteStockById: (id) => `/stocks/${id}`
 }
