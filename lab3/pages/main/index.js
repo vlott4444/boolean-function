@@ -4,12 +4,21 @@ import {CardEditPage} from "../card-edit/index.js";
 import {CardAddPage} from "../card-add/index.js";
 import {CardDeletePage} from "../card-delete/index.js";
 import { ajax } from '../../modules/ajax.js';
-import { functionUrls } from '../../modules/functionUrls.js';  // ← ДОЛЖНО БЫТЬ ТАК
+import { functionUrls } from '../../modules/functionUrls.js';
 
 export class MainPage {
     constructor(parent) {
         this.parent = parent;
         this.allData = [];
+
+
+        this.clickDetail = this.clickDetail.bind(this);
+        this.clickEdit = this.clickEdit.bind(this);
+        this.clickDelete = this.clickDelete.bind(this);
+        this.clickAdd = this.clickAdd.bind(this);
+        this.searchCards = this.searchCards.bind(this);
+        this.getData = this.getData.bind(this);
+        this.renderCarousel = this.renderCarousel.bind(this);
     }
 
     get pageRoot() {
@@ -36,7 +45,7 @@ export class MainPage {
 
     async getData() {
         try {
-            const result = await ajax.get(functionUrls.getFunctions());  // ← ИСПРАВЛЕНО
+            const result = await ajax.get(functionUrls.getFunctions());
             if (result && result.status === 200 && result.data) {
                 this.allData = result.data;
                 this.renderCarousel(this.allData);
@@ -63,67 +72,75 @@ export class MainPage {
         this.renderCarousel(filtered);
     }
 
-    getLocalData() {
-        return [
-            {
-                id: 1,
-                icon: "images/calculators.png",
-                title: "Найти значение булевой функции",
-                text: "Множество значений функции при переменных и константных входных значениях."
-            },
-            {
-                id: 2,
-                icon: "images/cheat-sheets.png",
-                title: "Логическое выражение из булевой функции",
-                text: "Составление исходного выражения из булевой функции."
-            },
-            {
-                id: 3,
-                icon: "images/groups.png",
-                title: "Минимизация выражений",
-                text: "Минимальное логическое выражение из исходного."
-            }
-        ];
-    }
 
     renderCarousel(data) {
         const container = document.getElementById('carousel-container');
         if (!container) return;
 
         const carousel = new SubjectCarouselComponent(container);
-        carousel.render(data, this.clickDetail.bind(this), this.clickEdit.bind(this), this.clickDelete.bind(this));
+
+        carousel.render(data, this.clickDetail, this.clickEdit, this.clickDelete);
     }
 
     clickDetail(e) {
+        console.log('clickDetail вызван', e.target.dataset.id);
+
         const cardId = e.target.dataset.id;
         if (cardId) {
+            if (!this.parent) {
+                console.error('parent не определен в MainPage');
+                return;
+            }
             const subjectPage = new SubjectPage(this.parent, cardId);
             subjectPage.render();
         }
     }
 
     clickEdit(e) {
+        console.log('clickEdit вызван', e.target.dataset.id);
+
         const cardId = e.target.dataset.id;
         if (cardId) {
+            if (!this.parent) {
+                console.error('parent не определен в MainPage');
+                return;
+            }
             const editPage = new CardEditPage(this.parent, cardId);
             editPage.render();
         }
     }
 
     clickDelete(e) {
+        console.log('clickDelete вызван', e.target.dataset.id);
+
         const cardId = e.target.dataset.id;
         if (cardId && confirm('Вы уверены, что хотите удалить эту карточку?')) {
+            if (!this.parent) {
+                console.error('parent не определен в MainPage');
+                return;
+            }
             const deletePage = new CardDeletePage(this.parent, cardId);
             deletePage.render();
         }
     }
 
-    clickAdd = () => {
+    clickAdd() {
+        console.log('clickAdd вызван');
+
+        if (!this.parent) {
+            console.error('parent не определен в MainPage');
+            return;
+        }
         const addPage = new CardAddPage(this.parent);
         addPage.render();
     }
 
     render() {
+        if (!this.parent) {
+            console.error('MainPage: parent не передан в конструктор');
+            return;
+        }
+
         this.parent.innerHTML = '';
         const html = this.getHTML();
         this.parent.insertAdjacentHTML('beforeend', html);

@@ -1,14 +1,12 @@
-// components/subject-carousel/index.js
+
 export class SubjectCarouselComponent {
     constructor(parent) {
         this.parent = parent;
     }
 
     render(data, onDetailClick, onEditClick, onDeleteClick) {
-        console.log('Данные для отображения:', data);
 
         const cards = data.map((item) => {
-            // Обработка пути к изображению
             const imagePath = item.icon || item.src || 'images/default.png';
 
             return `
@@ -43,7 +41,6 @@ export class SubjectCarouselComponent {
 
         this.parent.innerHTML = html;
 
-        // Добавляем эффект при наведении на карточку
         const cardsElements = document.querySelectorAll('.card');
         cardsElements.forEach(card => {
             card.addEventListener('mouseenter', () => {
@@ -54,25 +51,21 @@ export class SubjectCarouselComponent {
             });
         });
 
-        // Обработчики для кнопок "Подробнее"
+
         const detailButtons = document.querySelectorAll('.detail-btn');
-        console.log('Найдено кнопок "Подробнее":', detailButtons.length);
         detailButtons.forEach(button => {
             button.removeEventListener('click', onDetailClick);
             button.addEventListener('click', onDetailClick);
         });
 
-        // Обработчики для кнопок "Редактировать"
+
         const editButtons = document.querySelectorAll('.edit-btn');
-        console.log('Найдено кнопок "Редактировать":', editButtons.length);
         editButtons.forEach(button => {
             button.removeEventListener('click', onEditClick);
             button.addEventListener('click', onEditClick);
         });
 
-        // Обработчики для кнопок "Удалить"
         const deleteButtons = document.querySelectorAll('.delete-btn');
-        console.log('Найдено кнопок "Удалить":', deleteButtons.length);
         deleteButtons.forEach(button => {
             button.removeEventListener('click', onDeleteClick);
             button.addEventListener('click', onDeleteClick);

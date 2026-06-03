@@ -28,7 +28,8 @@ const create = (functionData) => {
         ? Math.max(...functions.map(f => f.id)) + 1
         : 1;
 
-    const newFunction = { id: newId, ...functionData };
+
+    const newFunction = { id: newId, ...functionData, comments: [] };
     functions.push(newFunction);
     fileService.writeData(dataFilePath, functions);
 
@@ -41,7 +42,13 @@ const update = (id, functionData) => {
 
     if (index === -1) return null;
 
-    functions[index] = { ...functions[index], ...functionData };
+
+    const existingComments = functions[index].comments || [];
+    functions[index] = {
+        ...functions[index],
+        ...functionData,
+        comments: functionData.comments !== undefined ? functionData.comments : existingComments
+    };
     fileService.writeData(dataFilePath, functions);
 
     return functions[index];
@@ -59,4 +66,26 @@ const remove = (id) => {
     return true;
 };
 
-module.exports = { init, findAll, findOne, create, update, remove };
+
+const addComment = (id, commentText) => {
+        const functions = fileService.readData(dataFilePath);
+        const index = functions.findIndex(f => f.id === id);
+
+        if (index === -1) return null;
+
+
+        if (!functions[index].comments) {
+            functions[index].comments = [];
+        }
+
+
+        functions[index].comments.push(commentText);
+
+
+        fileService.writeData(dataFilePath, functions);
+
+
+        return functions[index];
+};
+
+module.exports = { init, findAll, findOne, create, update, remove, addComment };

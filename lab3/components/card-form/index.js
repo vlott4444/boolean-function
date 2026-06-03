@@ -1,7 +1,7 @@
 export class CardFormComponent {
     constructor(parent, data = null) {
         this.parent = parent;
-        this.data = data; // данные для редактирования
+        this.data = data;
     }
 
     getHTML() {

@@ -50,10 +50,29 @@ const deleteFunction = (req, res) => {
     res.status(204).send();
 };
 
+const addComment = (req, res) => {
+    const id = parseInt(req.params.id);
+    const { text } = req.body;
+
+
+    if (!text || text.trim() === '') {
+        return res.status(400).json({ error: 'Текст комментария обязателен' });
+    }
+
+    const updatedFunction = functionsService.addComment(id, text.trim());
+
+    if (!updatedFunction) {
+        return res.status(404).json({ error: 'Функция не найдена' });
+    }
+
+    res.json(updatedFunction);
+};
+
 module.exports = {
     getAllFunctions,
     getFunctionById,
     createFunction,
     updateFunction,
-    deleteFunction
+    deleteFunction,
+    addComment
 };

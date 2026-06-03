@@ -2,7 +2,7 @@ import { CardFormComponent } from '../../components/card-form/index.js';
 import { BackButtonComponent } from '../../components/back-button/index.js';
 import { MainPage } from '../main/index.js';
 import { ajax } from '../../modules/ajax.js';
-import { functionUrls } from '../../modules/functionUrls.js';  // ← ИСПРАВЛЕНО
+import { functionUrls } from '../../modules/functionUrls.js';
 
 export class CardAddPage {
     constructor(parent) {
@@ -30,22 +30,13 @@ export class CardAddPage {
             src: icon || 'images/default.png'
         };
 
-        console.log('Отправляемые данные:', postData);
 
-        try {
             const { data, status } = await ajax.post(functionUrls.createFunction(), postData);  // ← ИСПРАВЛЕНО
-            if (status === 201 || status === 200) {
 
                 const mainPage = new MainPage(this.parent);
                 mainPage.render();
-            } else {
-                console.error('Ошибка при добавлении, статус:', status);
 
-            }
-        } catch (error) {
-            console.error('Ошибка:', error);
 
-        }
     }
 
     render() {
