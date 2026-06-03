@@ -1,0 +1,64 @@
+import { CardFormComponent } from '../../components/card-form/index.js';
+import { BackButtonComponent } from '../../components/back-button/index.js';
+import { MainPage } from '../main/index.js';
+import { ajax } from '../../modules/ajax.js';
+import { functionUrls } from '../../modules/functionUrls.js';  // ← ИСПРАВЛЕНО
+
+export class CardAddPage {
+    constructor(parent) {
+        this.parent = parent;
+    }
+
+    get pageRoot() {
+        return document.getElementById('card-add-page');
+    }
+
+    getHTML() {
+        return `<div id="card-add-page" class="container mt-4"></div>`;
+    }
+
+    async saveCard() {
+        const title = document.getElementById('card-title')?.value;
+        const text = document.getElementById('card-text')?.value;
+        const icon = document.getElementById('card-icon')?.value;
+
+
+
+        const postData = {
+            title: title,
+            text: text,
+            src: icon || 'images/default.png'
+        };
+
+        console.log('Отправляемые данные:', postData);
+
+        try {
+            const { data, status } = await ajax.post(functionUrls.createFunction(), postData);  // ← ИСПРАВЛЕНО
+            if (status === 201 || status === 200) {
+
+                const mainPage = new MainPage(this.parent);
+                mainPage.render();
+            } else {
+                console.error('Ошибка при добавлении, статус:', status);
+
+            }
+        } catch (error) {
+            console.error('Ошибка:', error);
+
+        }
+    }
+
+    render() {
+        this.parent.innerHTML = '';
+        const html = this.getHTML();
+        this.parent.insertAdjacentHTML('beforeend', html);
+        const root = this.pageRoot;
+        const backButton = new BackButtonComponent(root);
+        backButton.render(() => {
+            const mainPage = new MainPage(this.parent);
+            mainPage.render();
+        });
+        const form = new CardFormComponent(root);
+        form.render(this.saveCard.bind(this));
+    }
+}
