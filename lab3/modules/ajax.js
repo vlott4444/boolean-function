@@ -56,5 +56,5 @@ class Ajax {
     }
 }
 
-// ✅ Именованный экспорт (обязательно!)
+
 export const ajax = new Ajax();

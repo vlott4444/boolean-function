@@ -22,7 +22,7 @@ export class MainPage {
         `;
     }
 
-    // Используем коллбек вместо await
+
     getData() {
         ajax.get(stockUrls.getStocks(), (data, status) => {
             console.log('Статус:', status, 'Данные:', data);
@@ -65,7 +65,6 @@ export class MainPage {
             return;
         }
         const carousel = new SubjectCarouselComponent(this.pageRoot);
-        // Передаём два обработчика: для кнопки "Подробнее" и "Изменить"
         carousel.render(this.data, this.clickCard.bind(this), this.clickEdit.bind(this));
     }
 
@@ -89,13 +88,12 @@ export class MainPage {
 
     clickCard(e) {
     const cardId = e.target.dataset.id;
-    const subjectPage = new SubjectPage(this.parent, cardId); // ← передаём id
+    const subjectPage = new SubjectPage(this.parent, cardId);
     subjectPage.render();
     }
 
     clickEdit(e) {
         const cardId = e.target.dataset.id;
-        // Динамический импорт страницы редактирования (если она у тебя есть)
         import('../card-edit/index.js').then(module => {
             const editPage = new module.CardEditPage(this.parent, cardId);
             editPage.render();
